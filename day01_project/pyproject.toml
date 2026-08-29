@@ -1,0 +1,19 @@
+[project]
+name = "day01-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "himanshusaini4589-lgtm", email = "himanshusaini4589@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "ipykernel>=7.3.0",
+]
+
+[project.scripts]
+day01-project = "day01_project:main"
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"
