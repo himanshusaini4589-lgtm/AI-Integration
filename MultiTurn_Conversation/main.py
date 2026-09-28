@@ -1,12 +1,13 @@
-from openai import OpenAI
+from groq import Groq
+from groq.types.chat import ChatCompletionMessageParam
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-conversation = [
+conversation: list[ChatCompletionMessageParam] = [
     {
         "role": "system",
         "content": "You are a helpful AI assistant."
@@ -30,18 +31,11 @@ while True:
         })
 
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
-            messages=conversation
+            model="openai/gpt-oss-120b",
+            messages=conversation,
         )
 
-        assistant_reply = response.choices[0].message.content
-
-        print(f"Assistant: {assistant_reply}\n")
-
-        conversation.append({
-            "role": "assistant",
-            "content": assistant_reply
-        })
+        print(f"Assistant: {response.choices[0].message.content}\n")
 
     except KeyboardInterrupt:
         print("\n\nAssistant: Goodbye!")
