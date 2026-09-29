@@ -11,6 +11,7 @@ dependencies = [
     "groq>=1.7.0",
     "ipykernel>=7.3.0",
     "openai>=3.19.2",
+    "openrouter>=1.2.32",
     "python-dotenv>=1.2.3",
     "requests>=2.34.2",
 ]

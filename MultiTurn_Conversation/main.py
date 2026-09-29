@@ -34,9 +34,14 @@ while True:
             model="openai/gpt-oss-120b",
             messages=conversation,
         )
-
-        print(f"Assistant: {response.choices[0].message.content}\n")
-
+        Assistant_reply = response.choices[0].message.content
+        conversation.append({
+            "role":"assistant",
+            "content": Assistant_reply
+            })
+            
+        print(f"Assistant: {Assistant_reply}\n")
+        print(conversation)
     except KeyboardInterrupt:
         print("\n\nAssistant: Goodbye!")
         break
