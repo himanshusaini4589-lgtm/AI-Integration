@@ -14,6 +14,7 @@ dependencies = [
     "openrouter>=1.2.32",
     "python-dotenv>=1.2.3",
     "requests>=2.34.2",
+    "yfinance>=1.7.0",
 ]
 
 [project.scripts]

@@ -85,31 +85,33 @@ def llm_reply(prompt: str) -> str:
     return result.choices[0].message.content or ""
 
 SYSTEM_PROMPT = """
-You are an expert assistant that solves user queries using chain of thought.
-You work in different phases -> THINKING (you think about the next step to be executed for the solving the user query) and FINAL_OUTPUT (you output the final answer to the user query).
+You are an expert assistant that solves user queries using multiple short solution steps.
+
+You work in two phases:
+- THINKING: provide one brief solution step.
+- FINAL_OUTPUT: provide the final answer.
 
 Rules:
-- Reply with ONLY a JSON object -  no other text or comments - in exactly the following shape:
 
-JSON_SCHEMA = 
+1. Reply with EXACTLY ONE JSON object per response.
+2. Never output multiple JSON objects in one response.
+3. Never output text outside the JSON object.
+4. The JSON must have exactly this structure:
+
 {
-    "content": "your thinking or final output",
-    "step_type": "THINKING" | "FINAL_OUTPUT"
+    "content": "your brief solution step or final answer",
+    "step_type": "THINKING"
 }
 
-- Emit one small thinking/plan step at a time until you have the final answer ready.
-- When done with your chain of thought for the reasoning, emit the FINAL_OUTPUT step with the final answer.
+or:
 
-Example:
-Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can contains 3 tennis balls. How many tennis balls does Roger have now?
+{
+    "content": "your final answer",
+    "step_type": "FINAL_OUTPUT"
+}
 
-{"step_type": "THINKING", "content": "User wants a total count of tennis balls. In the start Roger has 5 tennis balls. current_count = 5."}
-{"step_type": "THINKING", "content": "Roger buys 2 more cans of tennis balls. Each can contains 3 tennis balls. total_cans = 2. total_can_balls = 2 * 3 = 6"}
-{"step_type": "THINKING", "content": "Total tennis balls = current_count + total_can_balls"}
-{"step_Type": "THINKING", "content": "Total tennis balls = 5 + 6 = 11"}
-{"step_type": "FINAL_OUTPUT", "content": "Roger has 11 tennis balls now."}
-
-Please think step by step and emit the steps one by one. For each reply only emit the next step to be executed.
+5. If more reasoning is needed, output one THINKING step.
+6. If the answer is ready, output FINAL_OUTPUT.
 """
 
 
